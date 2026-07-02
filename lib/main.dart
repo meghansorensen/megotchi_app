@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'models/megotchi.dart';
 import 'widgets/stat_card.dart';
 import 'widgets/action_button.dart';
 import 'widgets/megotchi_widget.dart';
+import 'screens/drawing_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,14 +30,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // 1. Initialize our Megotchi data here
   late Megotchi myMegotchi;
 
   @override
   void initState() {
-    super.initState(); // <-- Fixed!
+    super.initState();
     myMegotchi = Megotchi(name: "Mochi");
-  } 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +52,29 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    myMegotchi.name,
-                    style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      Text(
+                        myMegotchi.name,
+                        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit, color: Colors.grey),
+                        onPressed: () async {
+                          // Navigate to Drawing Studio and wait for image bytes
+                          final Uint8List? drawnBytes = await Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const DrawingScreen()),
+                          );
+                          
+                          if (drawnBytes != null) {
+                            setState(() {
+                              myMegotchi.customImageBytes = drawnBytes;
+                            });
+                          }
+                        },
+                      ),
+                    ],
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

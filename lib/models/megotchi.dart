@@ -1,3 +1,5 @@
+import 'dart:typed_data'; // Add this import at the very top of your file
+
 class Megotchi {
   String name;
   int happiness;
@@ -5,6 +7,7 @@ class Megotchi {
   int energy;
   int level;
   int coins;
+  Uint8List? customImageBytes; // Stores the raw custom drawing bytes
 
   Megotchi({
     required this.name,
@@ -13,6 +16,7 @@ class Megotchi {
     this.energy = 70,
     this.level = 1,
     this.coins = 125,
+    this.customImageBytes, // Initialized as empty/null by default
   });
 
   void feed() {

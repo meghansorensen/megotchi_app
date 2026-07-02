@@ -44,11 +44,18 @@ class MegotchiWidget extends StatelessWidget {
         const SizedBox(height: 16),
         
         // 2. The Megotchi Character Image
-        Image.asset(
-          'lib/images/megotchi.png',
-          width: 180,
-          height: 180,
-        ),
+        megotchi.customImageBytes != null
+            ? Image.memory(
+                megotchi.customImageBytes!,
+                width: 180,
+                height: 180,
+                fit: BoxFit.contain,
+              )
+            : Image.asset(
+                'lib/images/megotchi.png',
+                width: 180,
+                height: 180,
+              ),
       ],
     );
   }
