@@ -58,22 +58,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         myMegotchi.name,
                         style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.grey),
-                        onPressed: () async {
-                          // Navigate to Drawing Studio and wait for image bytes
-                          final Uint8List? drawnBytes = await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const DrawingScreen()),
-                          );
-                          
-                          if (drawnBytes != null) {
-                            setState(() {
-                              myMegotchi.customImageBytes = drawnBytes;
-                            });
-                          }
-                        },
-                      ),
+                        IconButton(
+                          icon: const Icon(Icons.edit, color: Colors.grey),
+                          onPressed: () async {
+                            // 1. Navigate and PASS THE CURRENT DRAWING BYTES!
+                            final Uint8List? drawnBytes = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DrawingScreen(
+                                  initialImageBytes: myMegotchi.customImageBytes, // Pass Mochi's current design
+                                ),
+                              ),
+                            );
+                            
+                            if (drawnBytes != null) {
+                              setState(() {
+                                myMegotchi.customImageBytes = drawnBytes;
+                              });
+                            }
+                          },
+                        ),    
                     ],
                   ),
                   Container(
